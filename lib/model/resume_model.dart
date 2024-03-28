@@ -1,14 +1,12 @@
 class ResumeModel
 {
-  String _name;
-  String _designation;
   String _objective;
   Map<String,String> _profile;
   List<String> _language;
   List<String>  _skill;
   Map<String,String> _projects;
 
-  ResumeModel(this._name, this._designation, this._objective, this._profile,
+  ResumeModel(this._objective, this._profile,
       this._language, this._skill, this._projects);
 
   set projects(Map<String, String> value) {
@@ -31,13 +29,7 @@ class ResumeModel
     _objective = value;
   }
 
-  set designation(String value) {
-    _designation = value;
-  }
 
-  set name(String value) {
-    _name = value;
-  }
 
 
   Map<String, String> get projects => _projects;
@@ -50,7 +42,5 @@ class ResumeModel
 
   String get objective => _objective;
 
-  String get designation => _designation;
 
-  String get name => _name;
 }
