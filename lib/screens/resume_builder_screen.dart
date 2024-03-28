@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:resume_builder_knovator/screens/personal_details_screen.dart';
-import 'package:resume_builder_knovator/util/sections.dart';
+
 
 class ResumeBuilderScreen extends StatefulWidget
 {
