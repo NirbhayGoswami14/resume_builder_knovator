@@ -46,12 +46,12 @@ Future<Uint8List> generatePdfDocument(ResumeModelWithId resumeModelWithId)
         Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(alignment: Alignment.centerLeft,child: Text(resumeModelWithId.resumeModel.education[index]["collegeName"].toString().toUpperCase(),style: TextStyle(fontWeight:FontWeight.bold,color:PdfColors.black)),
+              Align(alignment: Alignment.centerLeft,child: Text(resumeModelWithId.resumeModel.education[index]["collegeName"].toString().toUpperCase(),style: TextStyle(fontWeight:FontWeight.bold,color:PdfColors.black,fontSize:16)),
               ),
               SizedBox(height: 5),
-              Text(resumeModelWithId.resumeModel.education[index]["Degree"]),
+              Text(resumeModelWithId.resumeModel.education[index]["Degree"],style: contentTextStyle()),
               SizedBox(height: 5),
-              Text(resumeModelWithId.resumeModel.education[index]["passingYear"]),
+              Text(resumeModelWithId.resumeModel.education[index]["passingYear"],style: contentTextStyle()),
             ]) );
         }, itemCount:resumeModelWithId.resumeModel.education.length),
 
@@ -64,7 +64,7 @@ Future<Uint8List> generatePdfDocument(ResumeModelWithId resumeModelWithId)
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 10),
-                Align(alignment: Alignment.centerLeft,child: Text(resumeModelWithId.resumeModel.skill[index]),),
+                Align(alignment: Alignment.centerLeft,child: Text(resumeModelWithId.resumeModel.skill[index],style: contentTextStyle()),),
 
 
               ]);
@@ -77,7 +77,7 @@ Future<Uint8List> generatePdfDocument(ResumeModelWithId resumeModelWithId)
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 10),
-                Align(alignment: Alignment.centerLeft,child: Text(resumeModelWithId.resumeModel.language[index]),),
+                Align(alignment: Alignment.centerLeft,child: Text(resumeModelWithId.resumeModel.language[index],style: contentTextStyle()),),
 
 
               ]);
@@ -97,21 +97,20 @@ Future<Uint8List> generatePdfDocument(ResumeModelWithId resumeModelWithId)
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(alignment: Alignment.centerLeft,child:Text(resumeModelWithId.resumeModel.experience[index]["companyName"],style: TextStyle(fontWeight:FontWeight.bold,color:PdfColors.black,fontSize:16)),),
-
-
+                  Align(alignment: Alignment.centerLeft,child:Text(resumeModelWithId.resumeModel.experience[index]["companyName"].toString().toUpperCase(),style: TextStyle(fontWeight:FontWeight.bold,color:PdfColors.black,fontSize:16)),),
                   SizedBox(height: 5),
-                  SizedBox(width:100,child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                  Text(resumeModelWithId.resumeModel.experience[index]["position"],style:contentTextStyle()),
+                  SizedBox(height: 5),
+                  Align(alignment: Alignment.centerLeft,child: SizedBox(width:100,child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(resumeModelWithId.resumeModel.experience[index]["startDate"],style:contentTextStyle()),
                         Text("-"),
                         Text(resumeModelWithId.resumeModel.experience[index]["endDate"],style:contentTextStyle()),
-                      ]),),
-
-                  Text(resumeModelWithId.resumeModel.experience[index]["position"],style:contentTextStyle()),
+                      ]),), ),
                   SizedBox(height: 5),
                   Text(resumeModelWithId.resumeModel.experience[index]["role"],style:contentTextStyle()),
-                ]) );
+                ]), );
           }, itemCount:resumeModelWithId.resumeModel.experience.length),
           SizedBox(height: 25),
           sectionTitle("Projects"),
@@ -121,7 +120,7 @@ Future<Uint8List> generatePdfDocument(ResumeModelWithId resumeModelWithId)
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 20),
-                  Align(alignment: Alignment.centerLeft,child:Text(resumeModelWithId.resumeModel.projects[index]["projectName"],style: TextStyle(fontWeight:FontWeight.bold,color:PdfColors.black,fontSize:16)),),
+                  Align(alignment: Alignment.centerLeft,child:Text(resumeModelWithId.resumeModel.projects[index]["projectName"].toString().toUpperCase(),style: TextStyle(fontWeight:FontWeight.bold,color:PdfColors.black,fontSize:16)),),
                   SizedBox(height: 10),
                   Text(resumeModelWithId.resumeModel.projects[index]["projectDescription"],style:contentTextStyle()),
                 ]);
@@ -139,5 +138,5 @@ Widget sectionTitle(String title)
 }
 TextStyle contentTextStyle()
 {
-  return TextStyle(fontWeight:FontWeight.normal,fontSize:14,color: PdfColors.black);
+  return TextStyle(fontWeight:FontWeight.normal,fontSize:16,color: PdfColors.black);
 }

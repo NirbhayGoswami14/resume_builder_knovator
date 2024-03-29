@@ -28,8 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
     //fetchResumeFetchData();
     return Scaffold(
       appBar: AppBar(title: Text("Resume Builder")),
-      body: isLoaded?Column(children: [
+      body: isLoaded?resumeList.isEmpty?Center(child: Text("Create New Resume",style: TextStyle(fontWeight:  FontWeight.bold,fontSize:18),),):Column(children: [
         ListView.builder(
+          padding: EdgeInsets.all(20),
           shrinkWrap: true,
           itemCount: resumeList.length,
           itemBuilder: (context, index) {
@@ -40,7 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Card(
                   child: Column(
                 children: [
-                  Text(resumeList[index].resumeModel.profile!["name"])
+
+                  Padding(
+                    padding: const EdgeInsets.only(top:15,bottom: 10),
+                    child: Text(resumeList[index].resumeModel.profile["name"].toString().toUpperCase(),style: TextStyle(color: Colors.black,fontSize:18),),
+                  ),
+                  Align(alignment: Alignment.topRight,
+                      child: IconButton(onPressed: () {
+                          setState(() {
+                            deleteUser(resumeList[index].id);
+                            resumeList.removeAt(index);
+                          });
+                      }, icon: Icon(Icons.delete))),
                 ],
               )),
             );
@@ -76,7 +88,13 @@ class _HomeScreenState extends State<HomeScreen> {
         isLoaded=true;
       });
 
+  }
 
+  void deleteUser(String id) {
+    CollectionReference users = FirebaseFirestore.instance.collection('resumes');
 
+    users.doc(id).delete()
+        .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Resume Delete Successfully") )))
+        .catchError((error) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Something went wronf"))));
   }
 }
