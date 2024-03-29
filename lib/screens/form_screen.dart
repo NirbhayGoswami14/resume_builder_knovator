@@ -5,6 +5,7 @@ import 'package:resume_builder_knovator/widgets/experience.dart';
 import 'package:resume_builder_knovator/widgets/language.dart';
 import 'package:resume_builder_knovator/widgets/objective.dart';
 import 'package:resume_builder_knovator/widgets/personal_details.dart';
+import 'package:resume_builder_knovator/widgets/projects.dart';
 import 'package:resume_builder_knovator/widgets/skill.dart';
 
 class FormScreen extends StatefulWidget
@@ -20,7 +21,7 @@ class FormScreen extends StatefulWidget
 
 class _FormScreenState extends State<FormScreen>
 {
-  //var sectionList=["Personal Details","Objective","Education","Experience","Skill","Language"];
+  //var sectionList=["Personal Details","Objective","Education","Experience","Skill","Language","Projects"];
   Widget? widgets;
   @override
   Widget build(BuildContext context) {
@@ -48,13 +49,20 @@ class _FormScreenState extends State<FormScreen>
     {
       widgets=Language();
     }
+    else if(widget.formType=="Projects")
+    {
+      widgets=Projects();
+    }
     else
     {
       widgets=Center(child: Text("OOPS"),);
     }
    return Scaffold(
      appBar:AppBar(title: Text(widget.formType),),
-    body: widgets,
+    body: Padding(
+      padding: const EdgeInsets.only(top:10),
+      child: widgets,
+    ),
    );
   }
 

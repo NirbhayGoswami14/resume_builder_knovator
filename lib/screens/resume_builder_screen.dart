@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:resume_builder_knovator/model/resume_model.dart';
 import 'package:resume_builder_knovator/screens/form_screen.dart';
+import 'package:resume_builder_knovator/util/local_storage.dart';
 
 
 class ResumeBuilderScreen extends StatefulWidget
@@ -14,9 +17,10 @@ class ResumeBuilderScreen extends StatefulWidget
 
 class _ResumeBuilderScreenState extends State<ResumeBuilderScreen>
 {
-var sectionList=["Personal Details","Objective","Education","Experience","Skill","Language"];
+var sectionList=["Personal Details","Objective","Education","Experience","Skill","Language","Projects"];
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Create Resume "),
@@ -53,5 +57,14 @@ var sectionList=["Personal Details","Objective","Education","Experience","Skill"
                   ]),
           )),
     );
+  }
+
+
+  void addBlankData()
+  {
+    CollectionReference collectionReference=FirebaseFirestore.instance.collection("resume");
+    collectionReference.add(ResumeModel("",{},[],[],[],[],[]).toMap()).then((value) {
+      print(value.toString());
+      LocalStorage().setDocId(value.toString());}).catchError((error) => ScaffoldMessenger(child:SnackBar(content:Text("Something went wrong"))),);
   }
 }

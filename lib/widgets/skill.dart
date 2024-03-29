@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:resume_builder_knovator/util/local_storage.dart';
 import 'package:resume_builder_knovator/util/textfiled_decoration.dart';
 import 'package:resume_builder_knovator/util/textstyles.dart';
 
@@ -14,12 +16,16 @@ class Skill extends StatefulWidget
 class _SkillState extends State<Skill>
 {
   List<int> item=[0];
+  List<String> skills=[];
+  List<TextEditingController> textEditingController=[];
+  LocalStorage localStorage=LocalStorage();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
 
         ListView.builder(itemCount: item.length,shrinkWrap:true,physics: NeverScrollableScrollPhysics(),itemBuilder:(context, index) {
+          textEditingController.add(new TextEditingController());
           print(item.length);
           return Card(
             margin:EdgeInsets.symmetric(vertical:10,horizontal:10),
@@ -37,12 +43,14 @@ class _SkillState extends State<Skill>
                       {
                         setState(() {
                           item.removeAt(index);
+                          textEditingController.removeAt(index);
+                          skills.removeAt(index);
                         });
                       }
                     }, icon:Icon(Icons.delete))),
                     Text("Skill ${index+1}",style:TextStyles.bold16,),
                     SizedBox(height:8,),
-                    TextFormField(decoration:TextFiledDecoration.decoration("Skill ${index+1}"),),
+                    TextFormField(controller:textEditingController[index],decoration:TextFiledDecoration.decoration("Skill ${index+1}"),),
                     SizedBox(height:15,),
 
 
@@ -60,11 +68,37 @@ class _SkillState extends State<Skill>
                 });
               }, child:Text("+ Add")),
               SizedBox(width:30,),
-              ElevatedButton(onPressed:() {}, child:Text(" save"))
+              ElevatedButton(onPressed:() {
+
+                for(int i=0;i<textEditingController.length;i++)
+                {
+                  print(i);
+                  print(textEditingController[i].text);
+
+                  if(textEditingController[i].text.isNotEmpty)
+                  {
+                    skills.add(textEditingController[i].text);
+
+                  }
+
+                }
+
+                print(skills);
+                addData();
+              }, child:Text(" save"))
             ],),
         ),
       ],),
     );
+  }
+
+  void addData()
+  {
+
+    FirebaseFirestore.instance.collection('resumes').doc(localStorage.getDocId()).set({"skill":skills},SetOptions(merge:true)).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Data Saved")));
+    });
+
   }
 
 }
