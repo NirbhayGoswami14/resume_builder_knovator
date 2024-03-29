@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ]):Center(child: CircularProgressIndicator()),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResumeBuilderScreen(),));        },
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResumeBuilderScreen(fetchResumeFetchData),));        },
         label: Text("Create New Resume"),
         icon: Icon(Icons.add),
       ),
@@ -70,17 +70,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void fetchResumeFetchData() async
   {
-
-        CollectionReference collectionReference=FirebaseFirestore.instance.collection("resumes");
+    print("hello");
+    CollectionReference collectionReference=FirebaseFirestore.instance.collection("resumes");
+    resumeList.clear();
      final querySnapshot= await collectionReference.get();
       for(int i=0;i<querySnapshot.size;i++)
         {
             var map=querySnapshot.docs[i].data() as Map<String,dynamic>;
-
-
             resumeList.add(ResumeModelWithId(querySnapshot.docs[i].id, ResumeModel.fromMap(map)));
-
-            print(resumeList[i].resumeModel.profile!["name"]);
+            print(resumeList[i].resumeModel.profile["name"]);
             print(resumeList[i].id);
 
         }
