@@ -1,19 +1,43 @@
+import 'package:flutter/foundation.dart';
+
+class ResumeModelWithId
+{
+  String id;
+  ResumeModel resumeModel;
+
+  ResumeModelWithId(this.id, this.resumeModel);
+}
 class ResumeModel
 {
+
   String objective;
   Map<String,dynamic> profile;
-  List<String> language;
-  List<String>  skill;
+  List<dynamic> language;
+  List<dynamic>  skill;
   //List<Projects> projects;
-  List<Map<String,dynamic>> projects;
+  List<dynamic> projects;
   //List<EducationModel> education;
-  List<Map<String,dynamic>> education;
+  List<dynamic> education;
   //List<Experience> experience;
-  List<Map<String,dynamic>> experience;
+  List<dynamic> experience;
 
 
   ResumeModel(this.objective, this.profile, this.language, this.skill,
       this.projects, this.education, this.experience);
+
+
+
+
+  factory ResumeModel.fromMap(Map<String, dynamic> data) {
+    return ResumeModel(
+        data["objective"],
+        data["profile"],
+        data["language"] ?? [],
+        data["skill"] ?? [],
+        data["projects"]?? [],
+        data["education"] ?? [],
+        data["experience"] ?? []);
+  }
 
   Map<String,dynamic> toMap()
   {
